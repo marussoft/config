@@ -1,0 +1,28 @@
+{
+    "name": "marussia/config",
+    "type": "library",
+    "description": "Marussia config file loader",
+    "license": "MIT",
+    "keywords": [
+        "config"
+    ],
+    "authors": [
+        {
+            "name": "Mikhail Ilinsky",
+            "email": "mail@milinsky.ru"
+        }
+    ],
+    "support": {
+        "docs": "https://docs.marussia.org/config/"
+    },
+    "require": {
+        "php": "^7.0"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Marussia\\Config\\": "src/"
+        }
+    }
+}
+
