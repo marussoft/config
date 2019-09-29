@@ -56,15 +56,6 @@ class Config
 
     public static function env(string $configName)
     {
-        $configArray = static::getAll($configFile);
-
-        if (array_key_exists($configName, $configArray)) {
-            return $configArray[$configName];
-        }
-    }
-
-    public static function env(string $configName)
-    {
         $configArray = JsonFileLoader::load(static::$rootPath . '/.env.json');
 
         if (array_key_exists($configName, $configArray)) {
