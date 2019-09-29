@@ -16,6 +16,8 @@ class Config
     private static $configures = [];
 
     private static $isReady = false;
+    
+    private const ENV_FILENAME = 'env';
 
     public static function setConfigDir(string $rootPath, string $configDir)
     {
@@ -56,7 +58,7 @@ class Config
 
     public static function env(string $configName)
     {
-        $configArray = JsonFileLoader::load(static::$rootPath . '/.env.json');
+        $configArray = JsonFileLoader::load(static::$rootPath . '/.' . self::ENV_FILENAME . '.json');
 
         if (array_key_exists($configName, $configArray)) {
             return $configArray[$configName];
