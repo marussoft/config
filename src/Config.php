@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Marussia\Config;
 
 use Marussia\JsonFileLoader\JsonFileLoader;
-use Marussia\Config\Exceptions\DirPathIsAlreadyInstalledException;
 
 class Config
 {
