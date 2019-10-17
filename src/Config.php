@@ -9,64 +9,51 @@ use Marussia\Config\Exceptions\DirPathIsAlreadyInstalledException;
 
 class Config
 {
-    private static $rootPath;
+    private $rootPath;
 
-    private static $configDir;
+    private $configDir;
 
-    private static $configures = [];
+    private $configures = [];
 
-    private static $isReady = false;
-    
     private const ENV_FILENAME = 'env';
 
-    public static function setConfigDir(string $rootPath, string $configDir)
+    public function __construct(string $rootPath, string $configDir)
     {
-        if (static::$isReady) {
-            throw new DirPathIsAlreadyInstalledException();
-        }
+        $this->rootPath = $rootPath;
 
-        static::$rootPath = $rootPath;
-
-        static::$configDir = $rootPath . '/' . $configDir;
-
-        static::$isReady = true;
+        $this->configDir = $rootPath . '/' . $configDir;
     }
 
-    public static function getAll(string $configName) : array
+    public function getAll(string $configName) : array
     {
-        if (array_key_exists($configName, static::$configures)) {
-            return static::$configures[$configName];
+        if (array_key_exists($configName, $this->configures)) {
+            return $this->configures[$configName];
         }
 
-        $configPath = static::$configDir . '/' . str_replace('.', '/', $configName) . '.php';
+        $configPath = $this->configDir . '/' . str_replace('.', '/', $configName) . '.php';
 
         if (is_file($configPath)) {
-            static::$configures[$configName] = include $configPath;
-            return static::$configures[$configName];
+            $this->configures[$configName] = include $configPath;
+            return $this->configures[$configName];
         }
         return [];
     }
 
-    public static function get(string $configFile, string $configName)
+    public function get(string $configFile, string $configName)
     {
-        $configArray = static::getAll($configFile);
+        $configArray = $this->getAll($configFile);
 
         if (array_key_exists($configName, $configArray)) {
             return $configArray[$configName];
         }
     }
 
-    public static function env(string $configName)
+    public function env(string $configName)
     {
-        $configArray = JsonFileLoader::load(static::$rootPath . '/.' . self::ENV_FILENAME . '.json');
+        $configArray = JsonFileLoader::load($this->rootPath . '/.' . self::ENV_FILENAME . '.json');
 
         if (array_key_exists($configName, $configArray)) {
             return $configArray[$configName];
         }
-    }
-
-    public static function isReady() : bool
-    {
-        return static::$isReady;
     }
 }
